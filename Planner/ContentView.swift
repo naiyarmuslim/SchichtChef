@@ -43,6 +43,14 @@ struct ContentView: View {
         Array(Set(parseResult.entries.map { $0.person })).sorted()
     }
 
+    private var personHours: [String: Double] {
+        var dict: [String: Double] = [:]
+        for e in parseResult.entries {
+            dict[e.person, default: 0] += e.durationHours
+        }
+        return dict
+    }
+
     private var normalizedTarget: String {
         targetName.trimmingCharacters(in: .whitespacesAndNewlines)
     }
@@ -74,24 +82,37 @@ struct ContentView: View {
             )
             .ignoresSafeArea()
 
-            VStack {
-                Spacer(minLength: 24)
+                        ScrollViewReader { proxy in
+                            ScrollView(.vertical) {
+                                Spacer(minLength: 24)
 
-                // Centered column containing header and card
-                VStack(alignment: .center, spacing: 18) {
-                    headerView
+                                // Centered column containing header and card
+                                VStack(alignment: .center, spacing: 18) {
+                                    headerView
 
-                    contentCard
-                        .frame(maxWidth: 900)
-                }
-                .padding(18)
+                                    contentCard
+                                        .id("contentCard")
+                                        .frame(maxWidth: 900)
+                                }
+                                .padding(18)
 
-                Spacer()
-            }
+                                Spacer()
+                            }
+                            .onChange(of: lastAction) { new in
+                                // when a result is produced, scroll to the content card so results are visible
+                                if new != .none {
+                                    DispatchQueue.main.async {
+                                        withAnimation(.spring()) {
+                                            proxy.scrollTo("contentCard", anchor: .center)
+                                        }
+                                    }
+                                }
+                            }
+                        }
         }
         .onAppear { refreshParse() }
-        .onChange(of: rawText) { _, _ in refreshParse() }
-        .onChange(of: monthDate) { _, _ in refreshParse() }
+        .onChange(of: rawText) { _ in refreshParse() }
+        .onChange(of: monthDate) { _ in refreshParse() }
         .onChange(of: selectedMonth) { newMonth in
             // update monthDate to first day of selected month/year
             var comps = Calendar.current.dateComponents([.year, .month, .day], from: monthDate)
@@ -135,26 +156,6 @@ struct ContentView: View {
         VStack(spacing: 16) {
             inputView
 
-            HStack(spacing: 16) {
-                Spacer()
-                // Centered primary actions
-                Button(action: { withAnimation(.spring()) { lastAction = .exportCalendar }; saveCalendarFile(); if let s = exportStatus { lastResultText = s.message } }) {
-                    Label("📤 Export", systemImage: "calendar.badge.plus")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Self.accentGreen)
-                .disabled(filteredEntries.isEmpty)
-
-                Button(action: { withAnimation(.spring()) { lastAction = .calculateNetto }; if let summary = payrollSummary { let hoursStr = String(format: "%.1f", summary.totalHours); let grossStr = Self.currencyFormatter.string(from: NSNumber(value: summary.grossSalary)) ?? String(format: "%.2f", summary.grossSalary); let netStr = Self.currencyFormatter.string(from: NSNumber(value: summary.netSalary)) ?? String(format: "%.2f", summary.netSalary); lastResultText = "Total hours: \(hoursStr)\nGross: \(grossStr)\nNet: \(netStr)\nContract: \(summary.contractType.title)" } else { lastResultText = "No payroll data — ensure a target name and hourly wage are set." } }) {
-                    Label("💶 Calculate Netto", systemImage: "eurosign.circle")
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(Self.accentBlue)
-                .disabled(filteredEntries.isEmpty)
-
-                Spacer()
-            }
-
             if lastAction != .none {
                 GroupBox {
                     Text(lastResultText)
@@ -167,7 +168,7 @@ struct ContentView: View {
                 .animation(.spring(response: 0.4, dampingFraction: 0.8), value: lastAction)
             }
         }
-        .padding(18)
+        .padding(12)
         .frame(maxWidth: 820)
                 .background(Self.cardBackground)
         .cornerRadius(14)
@@ -217,6 +218,50 @@ struct ContentView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding(.top, 6)
+
+                // Primary actions placed immediately below the paste square so they're easier to reach
+                    HStack(spacing: 16) {
+                    Spacer()
+                    Button(action: { withAnimation(.spring()) { lastAction = .exportCalendar }; saveCalendarFile(); if let s = exportStatus { lastResultText = s.message } }) {
+                        Label("📤 Export", systemImage: "calendar.badge.plus")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Self.accentGreen)
+                    .disabled(filteredEntries.isEmpty)
+
+                    Button(action: {
+                        lastAction = .calculateNetto
+                        if let summary = payrollSummary {
+                            let hoursStr = String(format: "%.1f", summary.totalHours)
+                            let grossStr = Self.currencyFormatter.string(from: NSNumber(value: summary.grossSalary)) ?? String(format: "%.2f", summary.grossSalary)
+                            let netStr = Self.currencyFormatter.string(from: NSNumber(value: summary.netSalary)) ?? String(format: "%.2f", summary.netSalary)
+
+                            // compute tax and social for display (same logic as PayrollCalculator)
+                            let contract = summary.contractType
+                            var tax: Double = 0
+                            var social: Double = 0
+                            if contract != .minijob {
+                                let taxRate = summary.taxCategory.estimatedTaxRate(forGrossMonthly: summary.grossSalary)
+                                tax = summary.grossSalary * taxRate
+                                social = summary.grossSalary * contract.socialRate
+                            }
+
+                            let taxStr = Self.currencyFormatter.string(from: NSNumber(value: tax)) ?? String(format: "%.2f", tax)
+                            let socialStr = Self.currencyFormatter.string(from: NSNumber(value: social)) ?? String(format: "%.2f", social)
+
+                            lastResultText = "Total hours: \(hoursStr)\nContract: \(summary.contractType.title)\nGross: \(grossStr)\nTax (est): \(taxStr)\nSocial (est): \(socialStr)\nNet: \(netStr)"
+                        } else {
+                            lastResultText = "No payroll data — ensure a target name and hourly wage are set."
+                        }
+                    }) {
+                        Label("💶 Calculate Netto", systemImage: "eurosign.circle")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Self.accentBlue)
+                    .disabled(filteredEntries.isEmpty)
+
+                    Spacer()
+                }
             }
             .frame(maxWidth: 760)
 
@@ -258,8 +303,30 @@ struct ContentView: View {
                 } else {
                     HStack(spacing: 8) {
                         ForEach(people, id: \.self) { person in
-                            Button(person) { targetName = person }
-                                .buttonStyle(.bordered)
+                            Button(action: {
+                                withAnimation(.easeInOut) {
+                                    targetName = person
+                                    lastResultText = ""
+                                    lastAction = .none
+                                }
+                            }) {
+                                HStack(spacing: 8) {
+                                    Text(person)
+                                        .font(.body)
+                                        .fontWeight(person == normalizedTarget ? .semibold : .regular)
+                                    if let hrs = personHours[person] {
+                                        Text("\(hrs, format: .number.precision(.fractionLength(1)))h")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(person == normalizedTarget ? Self.accentBlue : Color.clear)
+                                .clipShape(Capsule())
+                                .foregroundColor(person == normalizedTarget ? .white : .primary)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
@@ -333,6 +400,8 @@ struct ContentView: View {
             lastResultText = exportStatus!.message
         }
     }
+
+    // Removed custom icon helpers to keep the app simple
 }
 
 // Static formatters used elsewhere
