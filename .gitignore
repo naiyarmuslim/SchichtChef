@@ -1,0 +1,30 @@
+# Xcode / macOS
+.DS_Store
+build/
+/tmp/
+DerivedData/
+*.xcuserstate
+*.xcworkspace
+*.xcuserdatad
+*.moved-aside
+*.xcarchive
+*.dmg
+*.app
+*.ipa
+*.dSYM
+
+# Swift Package Manager
+.build/
+
+# CocoaPods
+Pods/
+
+# JetBrains
+.idea/
+
+# VSCode
+.vscode/
+
+# User-specific
+*.swp
+*.swo
