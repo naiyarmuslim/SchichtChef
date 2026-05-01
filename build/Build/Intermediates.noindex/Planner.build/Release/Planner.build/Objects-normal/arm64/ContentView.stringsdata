@@ -1,0 +1,192 @@
+{
+  "source": "/Users/naiyargull/Desktop/Projects/Plannr/Planner/Planner/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "SchichtChef",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "Quickly paste shifts, export calendar or estimate payroll",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 146
+        }
+      },
+      {
+        "comment": "",
+        "key": "Shift Planner",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 183
+        }
+      },
+      {
+        "comment": "",
+        "key": "Paste raw shifts, filter by person, then export or estimate payroll.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld shifts",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "Paste your raw shift plan here",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 209
+        }
+      },
+      {
+        "comment": "",
+        "key": "📤 Export",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 226
+        }
+      },
+      {
+        "comment": "",
+        "key": "💶 Calculate Netto",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 257
+        }
+      },
+      {
+        "comment": "",
+        "key": "Filter",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 270
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 276
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 283
+        }
+      },
+      {
+        "comment": "",
+        "key": "I am:",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "No detected names",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 301
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@h",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 318
+        }
+      },
+      {
+        "comment": "",
+        "key": "Hourly Wage (EUR)",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 337
+        }
+      },
+      {
+        "comment": "",
+        "key": "Steuerklasse",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 343
+        }
+      },
+      {
+        "comment": "",
+        "key": "Hourly Wage",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 339
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 346
+        }
+      },
+      {
+        "comment": "",
+        "key": "Calendar export is available via the main input screen after processing.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 359
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use 'Calculate Netto' on the main screen after processing and selecting a person.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 368
+        }
+      },
+      {
+        "comment": "",
+        "key": "Total Hours",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 450
+        }
+      },
+      {
+        "comment": "",
+        "key": "Contract Type",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 451
+        }
+      },
+      {
+        "comment": "",
+        "key": "Estimated Netto",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 452
+        }
+      }
+    ]
+  },
+  "version": 1
+}

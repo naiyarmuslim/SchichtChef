@@ -1,0 +1,12 @@
+{
+  "/Users/naiyargull/Desktop/Projects/Plannr/Planner/Planner/ContentView.swift" : {
+    "abi-baseline-json" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner.abi.json",
+    "const-values" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner-primary.swiftconstvalues",
+    "dependencies" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner-primary.d",
+    "diagnostics" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner-primary.dia",
+    "objc-header" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner-Swift.h",
+    "swiftdoc" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner.swiftdoc",
+    "swiftmodule" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner.swiftmodule",
+    "swiftsourceinfo" : "/Users/naiyargull/Desktop/Projects/Plannr/Planner/build/Build/Intermediates.noindex/Planner.build/Release/Planner.build/Objects-normal/arm64/Planner.swiftsourceinfo"
+  }
+}
